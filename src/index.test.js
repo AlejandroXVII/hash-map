@@ -54,3 +54,9 @@ test("test clear method", () => {
   expect(hastMap.has("pedro")).toBe(false);
   expect(hastMap.has("alejandro")).toBe(false);
 });
+test("test keys method", () => {
+  hastMap.set("juan", "martin");
+  hastMap.set("pedro", "martin");
+  hastMap.set("alejandro", "martin");
+  expect(hastMap.entries()).toBe("['juan','pedro','alejandro']");
+});

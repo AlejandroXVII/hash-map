@@ -138,23 +138,57 @@ class HashMap {
     this.loadFactorNumber = this.storageLimit * 0.75;
   }
   keys() {
-    AllTheKeys = [];
+    let allTheKeys = [];
     for (let index = 0; index < this.storage.length; index++) {
       if (this.storage[index] !== undefined) {
         if (this.storage[index].length === 1) {
-          AllTheKeys.push(this.storage[index][0].value);
+          allTheKeys.push(this.storage[index][0].key);
         } else {
           this.storage[index].forEach((element) => {
-            if (element.key === key) {
-              sameKeyNotFound = false;
-              return true;
-            }
-            if (sameKeyNotFound) {
-              return false;
-            }
+            allTheKeys.push(element.key);
           });
         }
       }
+    }
+    if (allTheKeys.length > 0) {
+      return allTheKeys;
+    }
+  }
+  values() {
+    let allTheKeys = [];
+    for (let index = 0; index < this.storage.length; index++) {
+      if (this.storage[index] !== undefined) {
+        if (this.storage[index].length === 1) {
+          allTheKeys.push(this.storage[index][0].value);
+        } else {
+          this.storage[index].forEach((element) => {
+            allTheKeys.push(element.value);
+          });
+        }
+      }
+    }
+    if (allTheKeys.length > 0) {
+      return allTheKeys;
+    }
+  }
+  entries() {
+    let allTheKeys = [];
+    for (let index = 0; index < this.storage.length; index++) {
+      if (this.storage[index] !== undefined) {
+        if (this.storage[index].length === 1) {
+          allTheKeys.push([
+            this.storage[index][0].key,
+            this.storage[index][0].value,
+          ]);
+        } else {
+          this.storage[index].forEach((element) => {
+            allTheKeys.push([element.key, element.value]);
+          });
+        }
+      }
+    }
+    if (allTheKeys.length > 0) {
+      return allTheKeys;
     }
   }
   length() {
