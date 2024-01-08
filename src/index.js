@@ -25,9 +25,14 @@ class HashMap {
       return false;
     }
   }
-  updateLoadFactorAndStoreLimit() {
+  updateHashMapSize() {
+    let storageArray = this.entries();
+    this.clear();
     this.storageLimit *= 2;
     this.loadFactorNumber = this.storageLimit * 0.75;
+    storageArray.forEach((element) => {
+      this.set(element[0], element[1]);
+    });
   }
   createBucket(key, value) {
     return { key: key, value: value };
@@ -54,7 +59,7 @@ class HashMap {
     }
     //change the size of the store limit
     if (this.checkLoadFactor()) {
-      this.updateLoadFactorAndStoreLimit();
+      this.updateHashMapSize();
     }
   }
   get(key) {
