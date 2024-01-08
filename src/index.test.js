@@ -9,20 +9,21 @@ test("check that hash not be too big", () => {
 });
 
 test("check set method", () => {
+  let numElements = hastMap.numElements;
+  let numBuckets = hastMap.numBuckets;
   hastMap.set("juan", "martin");
-  expect(hastMap.storage[hastMap.hash("juan")][0]).toStrictEqual({
-    key: "juan",
-    value: "martin",
-  });
+  expect(hastMap.has("juan")).toBe(true);
+  expect(hastMap.numElements).toBe(numElements + 1);
+  expect(hastMap.numBuckets).toBe(numBuckets + 1);
 });
 
 test("check colition when set with the same key", () => {
-  hastMap.set("juan", "martin");
+  let numElements = hastMap.numElements;
+  let numBuckets = hastMap.numBuckets;
   hastMap.set("juan", "pedro");
-  expect(hastMap.storage[hastMap.hash("juan")][0]).toStrictEqual({
-    key: "juan",
-    value: "pedro",
-  });
+  expect(hastMap.get("juan")).toBe("pedro");
+  expect(hastMap.numElements).toBe(numElements);
+  expect(hastMap.numBuckets).toBe(numBuckets);
 });
 test("test get method", () => {
   expect(hastMap.get("juan")).toBe("pedro");
@@ -32,7 +33,24 @@ test("test has method", () => {
   expect(hastMap.has("juan")).toBe(true);
   expect(hastMap.has("alejandro")).toBe(false);
 });
-test.skip("test remove method", () => {
+test("test remove method", () => {
+  let numElements = hastMap.numElements;
+  let numBuckets = hastMap.numBuckets;
   hastMap.remove("juan");
   expect(hastMap.has("juan")).toBe(false);
+  expect(hastMap.numElements).toBe(numElements - 1);
+  expect(hastMap.numBuckets).toBe(numBuckets - 1);
+});
+test("test clear method", () => {
+  hastMap.set("juan", "martin");
+  hastMap.set("pedro", "martin");
+  hastMap.set("alejandro", "martin");
+  expect(hastMap.has("juan")).toBe(true);
+  expect(hastMap.has("pedro")).toBe(true);
+  expect(hastMap.has("alejandro")).toBe(true);
+  hastMap.clear();
+  console.table(hastMap.storage);
+  expect(hastMap.has("juan")).toBe(false);
+  expect(hastMap.has("pedro")).toBe(false);
+  expect(hastMap.has("alejandro")).toBe(false);
 });

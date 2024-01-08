@@ -37,6 +37,8 @@ class HashMap {
     let index = this.hash(key);
     if (this.storage[index] === undefined) {
       this.storage[index] = [bucket];
+      this.increaseNumElements();
+      this.increaseNumBuckets();
     } else {
       let sameKeyNotFound = true;
       this.storage[index].forEach((element) => {
@@ -47,9 +49,10 @@ class HashMap {
       });
       if (sameKeyNotFound) {
         this.storage[index].push(bucket);
+        this.increaseNumElements();
       }
     }
-
+    //change the size of the store limit
     if (this.checkLoadFactor()) {
       this.updateLoadFactorAndStoreLimit();
     }
@@ -107,11 +110,67 @@ class HashMap {
   remove(key) {
     let index = this.hash(key);
     if (this.storage[index] !== undefined) {
-      if (this.storage[index].key === key) {
+      if (this.storage[index].length === 1) {
+        if (this.storage[index][0].key === key) {
+          this.decreaseNumElements();
+          this.decreaseNumBuckets();
+          this.storage[index] = undefined;
+        }
+      } else {
+        this.storage[index].filter(function (element) {
+          if (element.key === key) {
+            this.decreaseNumElements();
+          }
+          return element.key !== key;
+        });
+      }
+    }
+  }
+  clear() {
+    for (let index = 0; index < this.storage.length; index++) {
+      if (this.storage[index] !== undefined) {
         this.storage[index] = undefined;
       }
     }
+    this.storageLimit = 16;
+    this.numElements = 0;
+    this.numBuckets = 0;
+    this.loadFactorNumber = this.storageLimit * 0.75;
+  }
+  keys() {
+    AllTheKeys = [];
+    for (let index = 0; index < this.storage.length; index++) {
+      if (this.storage[index] !== undefined) {
+        if (this.storage[index].length === 1) {
+          AllTheKeys.push(this.storage[index][0].value);
+        } else {
+          this.storage[index].forEach((element) => {
+            if (element.key === key) {
+              sameKeyNotFound = false;
+              return true;
+            }
+            if (sameKeyNotFound) {
+              return false;
+            }
+          });
+        }
+      }
+    }
+  }
+  length() {
+    return this.numElements;
+  }
+  increaseNumElements() {
+    this.numElements += 1;
+  }
+  decreaseNumElements() {
     this.numElements -= 1;
+  }
+  increaseNumBuckets() {
+    this.numBuckets += 1;
+  }
+  decreaseNumBuckets() {
+    this.numBuckets -= 1;
   }
 }
 
