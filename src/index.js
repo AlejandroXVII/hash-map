@@ -137,10 +137,8 @@ class HashMap {
         this.storage[index] = undefined;
       }
     }
-    this.storageLimit = 16;
     this.numElements = 0;
     this.numBuckets = 0;
-    this.loadFactorNumber = this.storageLimit * 0.75;
   }
   keys() {
     let allTheKeys = [];
